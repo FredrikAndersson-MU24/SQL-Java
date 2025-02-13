@@ -7,8 +7,13 @@ public class Database {
     private static final String user = System.getenv("SQL_USERNAME");
     private static final String password = System.getenv("SQL_PASSWORD");
 
-    public static Connection getConnection() throws SQLException {
-        Connection conn = DriverManager.getConnection(url, user, password);
+    public static Connection getConnection() {
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection(url, user, password);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         return conn;
     }
 
