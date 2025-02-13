@@ -1,5 +1,6 @@
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ProductDAO {
@@ -54,6 +55,27 @@ public class ProductDAO {
         }
 
         return products;
+    }
+
+    public HashMap getTotalSalesPerProduct() {
+        HashMap<String, String> result = new HashMap<>();
+        String query = "SELECT products.name AS Product, SUM(products.price * order_details.quantity) AS 'Total sales' FROM products\n" +
+                "\tJOIN order_details ON products.id = order_details.product_id\n" +
+                "    GROUP BY Product;";
+
+        try {
+            Connection conn = Database.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                result.put(rs.getString(1), String.valueOf(rs.getDouble(2)));
+            }
+        } catch (SQLException e) {
+            System.out.println("Failed to get products!");
+            e.printStackTrace();
+        }
+
+        return result;
     }
 
     public void updateProduct(int id, String newName, double newPrice) {
