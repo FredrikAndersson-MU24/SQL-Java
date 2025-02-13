@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 public class OrderDetailDAO {
 
-    public void addOrderDetail(int orderId, int productId, int quantity) {
+    public static void addOrderDetail(int orderId, int productId, int quantity) {
         String query = "INSERT INTO order_details(order_id, product_id, quantity) VALUES (?, ?, ?);";
         try {
             Connection conn = Database.getConnection();
@@ -20,7 +20,7 @@ public class OrderDetailDAO {
         }
     }
 
-    public OrderDetail getOrderDetailByOrderId(int orderId) {
+    public static OrderDetail getOrderDetailByOrderId(int orderId) {
         String query = "SELECT * FROM order_details WHERE order_id = ?;";
         OrderDetail orderDetail = null;
         try {

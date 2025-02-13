@@ -5,7 +5,7 @@ import java.util.List;
 
 public class OrderDAO {
 
-    public void addOrder(int CustomerID) {
+    public static void addOrder(int CustomerID) {
         String query = "INSERT INTO orders (customer_id, order_date) VALUES (?, ?);";
         LocalDate date = LocalDate.now();
         try {
@@ -21,7 +21,7 @@ public class OrderDAO {
         }
     }
 
-    public List<Order> getAllOrders() {
+    public static List<Order> getAllOrders() {
         List<Order> orders = new ArrayList<>();
         String query = "SELECT * FROM orders;";
         try {
@@ -38,7 +38,7 @@ public class OrderDAO {
         return orders;
     }
 
-    public List<Order> getOrdersByCustomerID(int customer_id) {
+    public static List<Order> getOrdersByCustomerID(int customer_id) {
         List<Order> orders = new ArrayList<>();
         String query = "SELECT * FROM orders WHERE customer_id = ?;";
         try {
@@ -56,12 +56,9 @@ public class OrderDAO {
         return orders;
     }
 
-    public List<OrderHistory> getOrderHistory() {
+    public static List<OrderHistory> getOrderHistory() {
         List<OrderHistory> orderHistory = new ArrayList<>();
-        String query = "SELECT o.id AS order_id, c.name AS customer_name, o.order_date, p.name AS product_name, od.quantity " +
-                "FROM orders o JOIN customers c ON o.customer_id = c.id        " +
-                "JOIN order_details od ON o.id = od.order_id        " +
-                "JOIN products p ON od.product_id = p.id ORDER BY o.order_date DESC;";
+        String query = "SELECT o.id AS order_id, c.name AS customer_name, o.order_date, p.name AS product_name, od.quantity " + "FROM orders o JOIN customers c ON o.customer_id = c.id        " + "JOIN order_details od ON o.id = od.order_id        " + "JOIN products p ON od.product_id = p.id ORDER BY o.order_date DESC;";
         try {
             Connection conn = Database.getConnection();
             Statement stmt = conn.createStatement();
@@ -77,7 +74,7 @@ public class OrderDAO {
     }
 
 
-    public void insertOrder(int customerId, List<OrderDetail> orderDetailsList) {
+    public static void insertOrder(int customerId, List<OrderDetail> orderDetailsList) {
         Connection conn = Database.getConnection();
 
         try {
