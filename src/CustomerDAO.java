@@ -59,7 +59,8 @@ public class CustomerDAO {
                 "JOIN orders ON customers.id = orders.customer_id " +
                 "JOIN order_details ON orders.id = order_details.order_id " +
                 "JOIN products ON order_details.product_id = products.id " +
-                " GROUP BY customers.id, customers.name;";
+                "GROUP BY customers.id, customers.name " +
+                "ORDER BY total_spent DESC;";
         try {
             Connection conn = Database.getConnection();
             Statement stmt = conn.createStatement();
