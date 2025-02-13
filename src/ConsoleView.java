@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
@@ -41,8 +43,9 @@ public class ConsoleView {
             System.out.println("1. Add product");
             System.out.println("2. View all products");
             System.out.println("3. Search product by name");
-            System.out.println("4. Update product");
-            System.out.println("5. Delete product");
+            System.out.println("4. Show total sale per product");
+            System.out.println("5. Update product");
+            System.out.println("6. Delete product");
             System.out.println("0. To main menu");
             String choice = scanner.nextLine();
             switch (choice) {
@@ -56,9 +59,12 @@ public class ConsoleView {
                     searchProductsByName();
                     break;
                 case "4":
-                    updateProduct();
+                    getTotalSalesPerProduct();
                     break;
                 case "5":
+                    updateProduct();
+                    break;
+                case "6":
                     deleteProduct();
                     break;
                 case "0":
@@ -104,6 +110,7 @@ public class ConsoleView {
             System.out.println("4. Add order details");
             System.out.println("5. View order details by order ID");
             System.out.println("6. View order history");
+            System.out.println("7. Add order with order details");
             System.out.println("0. To main menu");
             String choice = scanner.nextLine();
             switch (choice) {
@@ -124,6 +131,9 @@ public class ConsoleView {
                     break;
                 case "6":
                     getOrderHistory();
+                    break;
+                case "7":
+                    addOrderWithOrderDetails();
                     break;
                 case "0":
                     return;
@@ -164,14 +174,14 @@ public class ConsoleView {
 
     // PRODUCTS
     private void addProduct() {
-        System.out.println("Enter the product name: ");
-        String name = scanner.nextLine();
-        System.out.println(name);
-        System.out.println("Enter the price: ");
-        double price = scanner.nextDouble();
-        System.out.println(price);
-        scanner.nextLine();
-        productDAO.addProduct(name, price);
+//        System.out.println("Enter the product name: ");
+//        String name = scanner.nextLine();
+//        System.out.println("Enter the price: ");
+//        double price = scanner.nextDouble();
+//        scanner.nextLine();
+//        String name = InputHandler.getString("Enter the product name: ");
+//        double price = InputHandler.getPositiveDouble("Enter price");
+        productDAO.addProduct(InputHandler.getString("Enter the product name: "), InputHandler.getPositiveDouble("Enter price"));
     }
 
     private void viewAllProducts() {
@@ -188,6 +198,13 @@ public class ConsoleView {
             result.forEach(p -> System.out.println(p));
         } else {
             System.out.println("No products matching search term. Try again.");
+        }
+    }
+
+    private void getTotalSalesPerProduct() {
+        HashMap<String, String> map = productDAO.getTotalSalesPerProduct();
+        for (String i : map.keySet()) {
+            System.out.println(i + "\t" + map.get(i));
         }
     }
 
@@ -247,9 +264,9 @@ public class ConsoleView {
         System.out.println("Please enter product ID: ");
         int productId = scanner.nextInt();
         scanner.nextLine();
-        System.out.println("Please enter quantity: ");
-        int quantity = scanner.nextInt();
-        scanner.nextLine();
+//        System.out.println("Please enter quantity: ");
+        int quantity = InputHandler.getPositiveInt("Please enter quantity: ");
+//        scanner.nextLine();
         orderDetailDao.addOrderDetail(orderId, productId, quantity);
     }
 
@@ -268,5 +285,24 @@ public class ConsoleView {
     private void getOrderHistory() {
         List<OrderHistory> orderHistory = orderDao.getOrderHistory();
         orderHistory.forEach(o -> System.out.println(o));
+    }
+
+    private void addOrderWithOrderDetails() {
+        System.out.println("Enter number of products: ");
+        int products = scanner.nextInt();
+        scanner.nextLine();
+        List<OrderDetail> odList = new ArrayList<>();
+        for (int i = 0; i < products; i++) {
+            System.out.println("Please enter product ID: ");
+            int productId = scanner.nextInt();
+            scanner.nextLine();
+            int quantity = InputHandler.getPositiveInt("Please enter quantity: ");
+            odList.add(new OrderDetail(0, 0, productId, quantity));
+        }
+
+        System.out.println("Please enter customer ID: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+        orderDao.insertOrder(id, odList);
     }
 }
