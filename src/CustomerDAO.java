@@ -53,4 +53,24 @@ public class CustomerDAO {
         return customer;
     }
 
+    public List<CustomerSpending> getCustomerSpending() {
+        List<CustomerSpending> customerSpending = new ArrayList<>();
+        String query = "SELECT customers.id, customers.name, SUM(products.price * order_details.quantity) AS total_spent FROM customers " +
+                "JOIN orders ON customers.id = orders.customer_id " +
+                "JOIN order_details ON orders.id = order_details.order_id " +
+                "JOIN products ON order_details.product_id = products.id " +
+                " GROUP BY customers.id, customers.name;";
+        try {
+            Connection conn = Database.getConnection();
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                customerSpending.add(new CustomerSpending(rs.getInt(1), rs.getString(2), rs.getDouble(3)));
+            }
+        } catch (SQLException e) {
+            System.out.println("Failed to get customer!");
+            e.printStackTrace();
+        }
+        return customerSpending;
+    }
 }

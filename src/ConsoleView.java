@@ -81,6 +81,7 @@ public class ConsoleView {
             System.out.println("1. Add customer");
             System.out.println("2. View all customers");
             System.out.println("3. Get customer by ID");
+            System.out.println("4. Get customer spendings");
             System.out.println("0. To main menu");
             String choice = scanner.nextLine();
             switch (choice) {
@@ -92,6 +93,9 @@ public class ConsoleView {
                     break;
                 case "3":
                     getCustomerByID();
+                    break;
+                case "4":
+                    getCustomerSpending();
                     break;
                 case "0":
                     return;
@@ -169,6 +173,12 @@ public class ConsoleView {
         List<Customer> customers = customerDAO.getAllCustomers();
         System.out.println("Customers: ");
         customers.forEach(customer -> System.out.println(customer));
+    }
+
+    private void getCustomerSpending() {
+        List<CustomerSpending> customerSpending = customerDAO.getCustomerSpending();
+        System.out.println("-- Customer spending's --");
+        customerSpending.forEach(p -> System.out.println(p));
     }
 
 
