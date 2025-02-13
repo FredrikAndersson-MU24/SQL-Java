@@ -149,19 +149,19 @@ public class ConsoleView {
 
 
     //CUSTOMERS
-    public void addCustomer() {
-        System.out.println("Enter the customers name: ");
-        String name = scanner.nextLine();
-        System.out.println("Enter customers email: ");
-        String email = scanner.nextLine();
-        customerDAO.addCustomer(name, email);
+    private void addCustomer() {
+//        System.out.println("Enter the customers name: ");
+//        String name = scanner.nextLine();
+//        System.out.println("Enter customers email: ");
+//        String email = scanner.nextLine();
+        customerDAO.addCustomer(InputHandler.getString("Enter the customers name: "), InputHandler.getString("Enter customers email: "));
     }
 
     private void getCustomerByID() {
-        System.out.println("Enter the ID of the customer you want to find: ");
-        int id = scanner.nextInt();
-        scanner.nextLine();
-        Customer customer = customerDAO.getCustomerById(id);
+//        System.out.println("Enter the ID of the customer you want to find: ");
+//        int id = scanner.nextInt();
+//        scanner.nextLine();
+        Customer customer = customerDAO.getCustomerById(InputHandler.getPositiveInt("Enter the ID of the customer you want to find: "));
         if (customer != null) {
             System.out.println(customer);
         } else {
@@ -201,9 +201,9 @@ public class ConsoleView {
     }
 
     private void searchProductsByName() {
-        System.out.println("Please enter a term to search for: ");
-        String search = scanner.nextLine();
-        List<Product> result = productDAO.searchProductByName(search);
+//        System.out.println("Please enter a term to search for: ");
+//        String search = scanner.nextLine();
+        List<Product> result = productDAO.searchProductByName(InputHandler.getString("Please enter a term to search for: "));
         if (!result.isEmpty()) {
             result.forEach(p -> System.out.println(p));
         } else {
@@ -219,33 +219,31 @@ public class ConsoleView {
     }
 
     private void updateProduct() {
-        System.out.println("Enter ID for the product you want to update: ");
-        int id = scanner.nextInt();
-        scanner.nextLine();
-        System.out.println("Enter the new name: ");
-        String newName = scanner.nextLine();
-        System.out.println("Enter the new price: ");
-        double newPrice = scanner.nextDouble();
-        scanner.nextLine();
-        productDAO.updateProduct(id, newName, newPrice);
+//        System.out.println("Enter ID for the product you want to update: ");
+//        int id = scanner.nextInt();
+//        scanner.nextLine();
+//        System.out.println("Enter the new name: ");
+//        String newName = scanner.nextLine();
+//        System.out.println("Enter the new price: ");
+//        double newPrice = scanner.nextDouble();
+//        scanner.nextLine();
+        productDAO.updateProduct(InputHandler.getPositiveInt("Enter ID for the product you want to update: "), InputHandler.getString("Enter the new name: "), InputHandler.getPositiveDouble("Enter the new price: "));
     }
 
     private void deleteProduct() {
-        System.out.println("Enter the ID of the product you want to delete: ");
-        int id = scanner.nextInt();
-        scanner.nextLine();
-        productDAO.deleteProduct(id);
+//        System.out.println("Enter the ID of the product you want to delete: ");
+//        int id = scanner.nextInt();
+//        scanner.nextLine();
+        productDAO.deleteProduct(InputHandler.getPositiveInt("Enter the ID of the product you want to delete: "));
     }
 
 
     // ORDERS
     public void addOrder() {
-        System.out.println("Please enter customer ID: ");
-        int customerId = scanner.nextInt();
-        scanner.nextLine();
-//        System.out.println("Please enter order date (YYYY-MM-DD): ");
-//        Date date = Date.valueOf(scanner.nextLine());
-        orderDao.addOrder(customerId);
+//        System.out.println("Please enter customer ID: ");
+//        int customerId = scanner.nextInt();
+//        scanner.nextLine();
+        orderDao.addOrder(InputHandler.getPositiveInt("Please enter customer ID: "));
     }
 
     public void getAllOrders() {
@@ -254,9 +252,9 @@ public class ConsoleView {
     }
 
     public void getOrdersByCustomerID() {
-        System.out.println("Please enter customer ID to get orders: ");
-        int customerId = scanner.nextInt();
-        scanner.nextLine();
+//        System.out.println("Please enter customer ID to get orders: ");
+        int customerId = InputHandler.getPositiveInt("Please enter customer ID to get orders: ");
+//        scanner.nextLine();
         List<Order> orders = orderDao.getOrdersByCustomerID(customerId);
         if (!orders.isEmpty()) {
             int numberOfOrders = orders.size();
@@ -268,23 +266,23 @@ public class ConsoleView {
     }
 
     private void addOrderDetails() {
-        System.out.println("Please enter order ID: ");
-        int orderId = scanner.nextInt();
-        scanner.nextLine();
-        System.out.println("Please enter product ID: ");
-        int productId = scanner.nextInt();
-        scanner.nextLine();
-//        System.out.println("Please enter quantity: ");
-        int quantity = InputHandler.getPositiveInt("Please enter quantity: ");
+//        System.out.println("Please enter order ID: ");
+//        int orderId = scanner.nextInt();
 //        scanner.nextLine();
-        orderDetailDao.addOrderDetail(orderId, productId, quantity);
+//        System.out.println("Please enter product ID: ");
+//        int productId = scanner.nextInt();
+//        scanner.nextLine();
+//        System.out.println("Please enter quantity: ");
+//        int quantity = InputHandler.getPositiveInt("Please enter quantity: ");
+//        scanner.nextLine();
+        orderDetailDao.addOrderDetail(InputHandler.getPositiveInt("Please order ID: "), InputHandler.getPositiveInt("Please product ID: "), InputHandler.getPositiveInt("Please enter quantity: "));
     }
 
     private void getOrderDetailsByOrderId() {
-        System.out.println("Please enter orderID: ");
-        int orderId = scanner.nextInt();
-        scanner.nextLine();
-        OrderDetail orderDetail = orderDetailDao.getOrderDetailByOrderId(orderId);
+//        System.out.println("Please enter orderID: ");
+//        int orderId = InputHandler.getPositiveInt("Please enter orderID: ");
+//        scanner.nextLine();
+        OrderDetail orderDetail = orderDetailDao.getOrderDetailByOrderId(InputHandler.getPositiveInt("Please enter orderID: "));
         if (orderDetail != null) {
             System.out.println(orderDetail);
         } else {
@@ -298,21 +296,12 @@ public class ConsoleView {
     }
 
     private void addOrderWithOrderDetails() {
-        System.out.println("Enter number of products: ");
-        int products = scanner.nextInt();
-        scanner.nextLine();
+        int products = InputHandler.getPositiveInt("Enter number of products: ");
         List<OrderDetail> odList = new ArrayList<>();
         for (int i = 0; i < products; i++) {
             System.out.println("Please enter product ID: ");
-            int productId = scanner.nextInt();
-            scanner.nextLine();
-            int quantity = InputHandler.getPositiveInt("Please enter quantity: ");
-            odList.add(new OrderDetail(0, 0, productId, quantity));
+            odList.add(new OrderDetail(0, 0, InputHandler.getPositiveInt("Enter product ID: "), InputHandler.getPositiveInt("Please enter quantity: ")));
         }
-
-        System.out.println("Please enter customer ID: ");
-        int id = scanner.nextInt();
-        scanner.nextLine();
-        orderDao.insertOrder(id, odList);
+        orderDao.insertOrder(InputHandler.getPositiveInt("Please enter customer ID: "), odList);
     }
 }
