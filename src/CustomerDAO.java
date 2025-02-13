@@ -43,7 +43,7 @@ public class CustomerDAO {
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
-            if(rs.next()){
+            if (rs.next()) {
                 customer = new Customer(rs.getInt("id"), rs.getString("name"), rs.getString("email"));
             }
         } catch (SQLException e) {
