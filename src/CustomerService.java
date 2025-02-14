@@ -10,7 +10,16 @@ public class CustomerService {
 //        String name = scanner.nextLine();
 //        System.out.println("Enter customers email: ");
 //        String email = scanner.nextLine();
-        customerDAO.addCustomer(InputHandler.getString("Enter the customers name: "), InputHandler.getString("Enter customers email: "));
+        String name = InputHandler.getString("Enter the customers name: ");
+        String email;
+        while (true) {
+            email = InputHandler.getString("Enter customers email: ");
+            if (InputHandler.isEmailValid(email)) {
+                break;
+            }
+            ;
+        }
+        customerDAO.addCustomer(name, email);
     }
 
     public static void getCustomerByID() {

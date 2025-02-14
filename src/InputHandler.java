@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class InputHandler {
 
@@ -35,8 +36,19 @@ public class InputHandler {
     }
 
     public static String getString(String text) {
-        System.out.println(text);
-        return scanner.nextLine();
+        while (true) {
+            System.out.println(text);
+            String result = scanner.nextLine();
+            if (!result.isEmpty()) {
+                return result;
+            }
+            System.out.println("Please enter a valid string! Can not be empty.");
+        }
+    }
+
+
+    public static boolean isEmailValid(String email) {
+        return Pattern.compile("^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$").matcher(email).matches();
     }
 
 }
